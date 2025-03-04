@@ -38,7 +38,7 @@ def exibir_atletas():
 def cadastrospfc():
     form_cadastrospfc = FormCriarConta()
     if form_cadastrospfc.validate_on_submit():
-        senha_criptografada = criptografia.generate_password_hash(form_cadastrospfc.senha.data)
+        senha_criptografada = criptografia.generate_password_hash(form_cadastrospfc.senha.data).decode("utf-8")
         usuario = Usuario(username=form_cadastrospfc.username.data, email=form_cadastrospfc.email.data, senha=senha_criptografada)
         database.session.add(usuario)
         database.session.commit()
@@ -52,7 +52,7 @@ def loginspfc():
     form_loginspfc = FormLogin()
     if form_loginspfc.validate_on_submit():
         usuario = Usuario.query.filter_by(email=form_loginspfc.email.data).first()
-        if usuario and criptografia.check_password_hash(usuario.senha, form_loginspfc.senha.data):
+        if usuario and criptografia.check_password_hash(usuario.senha.encode("utf-8"), form_loginspfc.senha.data):
             login_user(usuario, remember=form_loginspfc.lembrar_dados.data)
             flash(f'Login feito com sucesso no e-mail {form_loginspfc.email.data}', 'alert-success')
             par_next = request.args.get('next')
@@ -162,5 +162,7 @@ def excluir_atleta(id):
     database.session.commit()
     flash('Atleta deletado com sucesso', 'alert-danger')
     return redirect(url_for('exibir_atletas'))
+
+
 
 
