@@ -11,7 +11,7 @@ app.config['SECRET_KEY'] = '76de173de227420f653cf3c10a713543'
 # if os.getenv('DATABASE_URL'):
 #     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 # else:
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///projetospfc.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://banco_spfc_user:DacVU8ZAu28ioOxslKpkTfwW5CXYWuoR@dpg-cv3n2ggfnakc73eqcpi0-a/banco_spfc'
 
 database = SQLAlchemy(app)
 criptografia = Bcrypt(app)
@@ -34,3 +34,4 @@ login_manager.login_message_category = 'alert-info'
 
 
 from spfcproject import routes
+
